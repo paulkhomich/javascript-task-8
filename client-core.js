@@ -1,6 +1,7 @@
 'use strict';
 
 const http = require('http');
+const chalk = require('chalk');
 
 module.exports.execute = execute;
 module.exports.isStar = false;
@@ -52,7 +53,7 @@ function getList(from, to) {
             });
 
             response.on('end', () => {
-                resolve(body);
+                resolve(prettyMessage(body));
             });
         });
 
@@ -82,10 +83,34 @@ function sendMessage(from, to, text) {
             });
 
             response.on('end', () => {
-                resolve(body);
+                resolve(prettyMessage(body));
             });
         });
 
         req.end();
     });
+}
+
+function prettyMessage(body) {
+    body = JSON.parse(body);
+    body = body.map(mes => {
+        let ans = '';
+        let from = mes.from;
+        let to = mes.to;
+        let text = mes.text;
+        if (from) {
+            ans += `${chalk.hex('#F00')('FROM')}: ${from}\n`;
+        }
+        if (to) {
+            ans += `${chalk.hex('#F00')('TO')}: ${to}\n`;
+        }
+        if (text) {
+            ans += `${chalk.hex('#0F0')('TEXT')}: ${text}`;
+        }
+
+        return ans;
+    });
+    body = body.join('\n\n');
+
+    return body;
 }
