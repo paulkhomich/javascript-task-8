@@ -26,7 +26,7 @@ function execute() {
         console.info('command not found');
     }
 
-    return Promise.resolve('Это строка будет выведена на консоль');
+    return Promise.resolve('');
 }
 
 function getList(from, to) {
