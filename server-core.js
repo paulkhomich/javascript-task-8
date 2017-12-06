@@ -12,7 +12,7 @@ server.on('request', (req, res) => {
     const { query } = parseUrl(req.url);
     const { from, to } = parseQuery(query);
     const body = {};
-    body.text = decodeURIComponent(req.headers.text);
+    body.text = req.headers.text;
     // Тут нужно обработать запрос
     res.setHeader('content-type', 'application/json');
     if (req.url.startsWith('/messages') && req.method === 'GET') {
