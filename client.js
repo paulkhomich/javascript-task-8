@@ -2,7 +2,6 @@
 'use strict';
 
 const { execute } = require('./client-core');
-const chalk = require('chalk');
 
 module.exports.isStar = false;
 
