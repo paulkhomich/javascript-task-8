@@ -12,7 +12,6 @@ server.on('request', (req, res) => {
     const { query } = parseUrl(req.url);
     const { from, to } = parseQuery(query);
     const body = {};
-    body.text = req.headers.text;
     // Тут нужно обработать запрос
     res.setHeader('content-type', 'application/json');
     if (req.url.startsWith('/messages') && req.method === 'GET') {
@@ -24,6 +23,7 @@ server.on('request', (req, res) => {
         if (to) {
             body.to = to;
         }
+        body.text = req.headers.text;
         DB.push(body);
         res.write(JSON.stringify([body]));
     } else {

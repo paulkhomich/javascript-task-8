@@ -17,16 +17,16 @@ function prettyMessage(body) {
         let to = mes.to;
         let text = mes.text;
         if (from) {
-            console.info(chalk.hex('#F00')('FROM') + ': ' + from);
+            console.log(chalk.hex('#F00')('FROM') + ': ' + from);
         }
         if (to) {
-            console.info(chalk.hex('#F00')('TO') + ': ' + to);
+            console.log(chalk.hex('#F00')('TO') + ': ' + to);
         }
         if (text) {
-            console.info(chalk.hex('#0F0')('TEXT') + ': ' + text);
+            console.log(chalk.hex('#0F0')('TEXT') + ': ' + text);
         }
         if (body.indexOf(mes) + 1 !== body.length) {
-            console.info('');
+            console.log('');
         }
     });
 }
