@@ -29,7 +29,7 @@ server.on('request', (req, res) => {
             if (to) {
                 body.to = to;
             }
-            body.text = fetchedData;
+            body.text = JSON.parse(fetchedData).text;
             DB.push(body);
             res.write(JSON.stringify(body));
             res.end();

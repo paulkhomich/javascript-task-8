@@ -80,10 +80,17 @@ function sendMessage(from, to, text) {
             hostname: 'localhost',
             method: 'POST',
             path: path,
-            port: 8080
+            port: 8080,
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
 
-        req.write(text);
+        let jsonText = {
+            'text': text
+        };
+
+        req.write(JSON.stringify(jsonText));
 
         req.on('response', response => {
             let body = '';
