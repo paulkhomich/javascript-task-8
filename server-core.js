@@ -16,20 +16,28 @@ server.on('request', (req, res) => {
     res.setHeader('content-type', 'application/json');
     if (req.url.startsWith('/messages') && req.method === 'GET') {
         res.write(JSON.stringify(createLocalDB(from, to)));
+        res.end();
     } else if (req.url.startsWith('/messages') && req.method === 'POST') {
-        if (from) {
-            body.from = from;
-        }
-        if (to) {
-            body.to = to;
-        }
-        body.text = req.headers.text;
-        DB.push(body);
-        res.write(JSON.stringify([body]));
+        let fetchedData = '';
+        req.on('data', chunk => {
+            fetchedData += chunk;
+        });
+        req.on('end', () => {
+            if (from) {
+                body.from = from;
+            }
+            if (to) {
+                body.to = to;
+            }
+            body.text = fetchedData;
+            DB.push(body);
+            res.write(JSON.stringify(body));
+            res.end();
+        });
     } else {
         res.statusCode = 404;
+        res.end();
     }
-    res.end();
 });
 
 module.exports = server;

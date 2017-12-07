@@ -2,6 +2,17 @@
 
 const http = require('http');
 const chalk = require('chalk');
+var ArgumentParser = require('argparse').ArgumentParser;
+var parser = new ArgumentParser({});
+parser.addArgument(
+    ['--from']
+);
+parser.addArgument(
+    ['--to']
+);
+parser.addArgument(
+    ['--text']
+);
 
 module.exports.execute = execute;
 module.exports.isStar = false;
@@ -11,13 +22,11 @@ function execute() {
         // Внутри этой функции нужно получить и обработать аргументы командной строки
         const args = process.argv;
         const command = args[2];
-        let argsParams = args.slice(3).join(' ');
-        let from = argsParams.match(/--from(=|\s)\S+/i);
-        let to = argsParams.match(/--to(=|\s)\S+/i);
-        let text = argsParams.match(/--text(=|\s)\S+/i);
-        from = from ? from[0].replace('--from', '').slice(1) : null;
-        to = to ? to[0].replace('--to', '').slice(1) : null;
-        text = text ? text[0].replace('--text', '').slice(1) : null;
+        let argsParams = args.slice(3);
+        var argsFull = parser.parseArgs(argsParams);
+        let from = argsFull.from;
+        let to = argsFull.to;
+        let text = argsFull.text;
 
         let body = [];
         if (command === 'list') {
@@ -71,9 +80,10 @@ function sendMessage(from, to, text) {
             hostname: 'localhost',
             method: 'POST',
             path: path,
-            headers: { 'text': text },
             port: 8080
         });
+
+        req.write(text);
 
         req.on('response', response => {
             let body = '';
@@ -93,6 +103,7 @@ function sendMessage(from, to, text) {
 
 function prettyMessage(body) {
     body = JSON.parse(body);
+    body = body[0] ? body : [body];
     body = body.map(mes => {
         let ans = '';
         let from = mes.from;
