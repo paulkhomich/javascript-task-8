@@ -19,7 +19,7 @@ module.exports.isStar = false;
 
 function execute() {
     return new Promise((resolve, reject) => {
-        // Внутри этой функции нужно получить и обработать аргументы командной строки
+        // Внутри этой функции нужно полуучить и обработать аргументы командной строки
         const args = process.argv;
         const command = args[2];
         let argsParams = args.slice(3);
