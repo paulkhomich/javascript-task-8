@@ -67,7 +67,7 @@ function getList(from, to) {
             
             response.on('error', () => {
                 reject('error');
-            }
+            });
         });
 
         req.end();
@@ -109,7 +109,7 @@ function sendMessage(from, to, text) {
             
             response.on('error', () => {
                 reject('error');
-            }
+            });
         });
 
         req.end();
