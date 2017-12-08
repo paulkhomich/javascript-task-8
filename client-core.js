@@ -30,9 +30,9 @@ function execute() {
 
         let body = [];
         if (command === 'list') {
-            body = await getList(from, to);
+            body = getList(from, to);
         } else if (command === 'send') {
-            body = await sendMessage(from, to, text);
+            body = sendMessage(from, to, text);
         } else {
             reject('command not found');
         }
