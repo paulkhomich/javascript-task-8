@@ -64,7 +64,7 @@ function getList(from, to) {
             response.on('end', () => {
                 resolve(prettyMessage(body));
             });
-            
+
             response.on('error', () => {
                 reject('error');
             });
@@ -106,7 +106,7 @@ function sendMessage(from, to, text) {
             response.on('end', () => {
                 resolve(prettyMessage(body));
             });
-            
+
             response.on('error', () => {
                 reject('error');
             });
