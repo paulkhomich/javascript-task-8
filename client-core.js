@@ -18,7 +18,7 @@ module.exports.execute = execute;
 module.exports.isStar = false;
 
 function execute() {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         // Внутри этой функции нужно получить и обработать аргументы командной строки
         const args = process.argv;
         const command = args[2];
@@ -42,7 +42,7 @@ function execute() {
 }
 
 function getList(from, to) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         let path = '/messages?';
         path += from ? 'from=' + from + '&' : '';
         path += to ? 'to=' + to : '';
@@ -71,7 +71,7 @@ function getList(from, to) {
 }
 
 function sendMessage(from, to, text) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         let path = '/messages?';
         path += from ? 'from=' + from + '&' : '';
         path += to ? 'to=' + to : '';
