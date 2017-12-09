@@ -12,12 +12,13 @@ server.on('request', (req, res) => {
     const { query } = parseUrl(req.url);
     const { from, to } = parseQuery(query);
     const body = {};
+    const isUrlRight = Boolean(req.url.match(/^\/messages($|\?)/));
     // Тут нужно обработать запрос
     res.setHeader('content-type', 'application/json');
-    if (req.url.startsWith('/messages') && req.method === 'GET') {
+    if (isUrlRight && req.method === 'GET') {
         res.write(JSON.stringify(createLocalDB(from, to)));
         res.end();
-    } else if (req.url.startsWith('/messages') && req.method === 'POST') {
+    } else if (isUrlRight && req.method === 'POST') {
         let fetchedData = '';
         req.on('data', chunk => {
             fetchedData += chunk;
