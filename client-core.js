@@ -43,7 +43,8 @@ function execute() {
 
 function getList(from, to) {
     return new Promise((resolve, reject) => {
-        let path = '/messages?';
+        let path = '/messages';
+        path += from || to ? '?' : '';
         path += from ? 'from=' + from + '&' : '';
         path += to ? 'to=' + to : '';
 
@@ -76,7 +77,8 @@ function getList(from, to) {
 
 function sendMessage(from, to, text) {
     return new Promise((resolve, reject) => {
-        let path = '/messages?';
+        let path = '/messages';
+        path += from || to ? '?' : '';
         path += from ? 'from=' + from + '&' : '';
         path += to ? 'to=' + to : '';
 
