@@ -45,7 +45,8 @@ function getList(from, to) {
     return new Promise((resolve, reject) => {
         let path = '/messages';
         path += from || to ? '?' : '';
-        path += from ? 'from=' + from + '&' : '';
+        path += from ? 'from=' + from : '';
+        path += (from && to) ? '&' : '';
         path += to ? 'to=' + to : '';
 
         const req = http.request({
@@ -79,7 +80,8 @@ function sendMessage(from, to, text) {
     return new Promise((resolve, reject) => {
         let path = '/messages';
         path += from || to ? '?' : '';
-        path += from ? 'from=' + from + '&' : '';
+        path += from ? 'from=' + from : '';
+        path += (from && to) ? '&' : '';
         path += to ? 'to=' + to : '';
 
         const req = http.request({
