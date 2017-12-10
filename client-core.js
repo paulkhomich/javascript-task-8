@@ -66,12 +66,12 @@ function getList(from, to) {
                 body += chunk;
             });
 
-            response.on('end', () => {
-                resolve(prettyMessage(body));
-            });
-
             response.on('error', () => {
                 reject('error');
+            });
+
+            response.on('end', () => {
+                resolve(prettyMessage(body));
             });
         });
 
@@ -91,10 +91,7 @@ function sendMessage(from, to, text) {
             hostname: 'localhost',
             method: 'POST',
             path: path,
-            port: 8080,
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            port: 8080
         });
 
         let jsonText = {
@@ -110,12 +107,12 @@ function sendMessage(from, to, text) {
                 body += chunk;
             });
 
-            response.on('end', () => {
-                resolve(prettyMessage(body));
-            });
-
             response.on('error', () => {
                 reject('error');
+            });
+
+            response.on('end', () => {
+                resolve(prettyMessage(body));
             });
         });
 
@@ -137,9 +134,7 @@ function prettyMessage(body) {
         if (to) {
             ans += `${chalk.hex('#F00')('TO')}: ${to}\n`;
         }
-        if (text) {
-            ans += `${chalk.hex('#0F0')('TEXT')}: ${text}`;
-        }
+        ans += `${chalk.hex('#0F0')('TEXT')}: ${text}`;
 
         return ans;
     });
