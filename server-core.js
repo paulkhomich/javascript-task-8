@@ -12,7 +12,7 @@ server.on('request', (req, res) => {
     const { query } = parseUrl(req.url);
     const { from, to } = parseQuery(query);
     const body = {};
-    const isUrlRight = Boolean(req.url.match(/^\/messages($|\?)/));
+    const isUrlRight = Boolean(req.url.match(/^\/messages($|(\?|\/\?))/));
     // Тут нужно обработать запрос
     res.setHeader('content-type', 'application/json');
     if (isUrlRight && req.method === 'GET') {
