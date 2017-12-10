@@ -24,17 +24,23 @@ server.on('request', (req, res) => {
             fetchedData += chunk;
         });
         req.on('end', () => {
-            if (from) {
-                body.from = from;
-            }
-            if (to) {
-                body.to = to;
-            }
+            if (!JSON.parse(fetchedData).text) {
+                res.statusCode = 404;
+                res.write(JSON.stringify([]));
+                res.end();
+            } else {
+                if (from) {
+                    body.from = from;
+                }
+                if (to) {
+                    body.to = to;
+                }
 
-            body.text = JSON.parse(fetchedData).text;
-            DB.push(body);
-            res.write(JSON.stringify(body));
-            res.end();
+                body.text = JSON.parse(fetchedData).text;
+                DB.push(body);
+                res.write(JSON.stringify(body));
+                res.end();
+            }
         });
     } else {
         res.statusCode = 404;
