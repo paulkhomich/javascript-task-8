@@ -2,7 +2,7 @@
 
 const http = require('http');
 const chalk = require('chalk');
-var ArgumentParser = require('argparse').ArgumentParser;
+var ArgumentParser = require('argparse').ArgumentParser; // Для чтения --аргументов
 var parser = new ArgumentParser({});
 parser.addArgument(
     ['--from']
@@ -27,7 +27,7 @@ function execute() {
         let from = argsFull.from;
         let to = argsFull.to;
         let text = argsFull.text;
-
+        // После того как имею аргументы для работы
         let body = [];
         if (command === 'list') {
             body = getList(from, to);
@@ -43,12 +43,12 @@ function execute() {
 
 function getList(from, to) {
     return new Promise((resolve, reject) => {
-        let path = '/messages';
+        let path = '/messages'; // Формирую url, Русский язык энкод(!)
         path += from || to ? '?' : '';
         path += from ? 'from=' + encodeURIComponent(from) : '';
         path += (from && to) ? '&' : '';
         path += to ? 'to=' + encodeURIComponent(to) : '';
-
+        // создаю интерфейс запроса
         const req = http.request({
             hostname: 'localhost',
             method: 'GET',
@@ -58,7 +58,7 @@ function getList(from, to) {
                 'Content-Type': 'application/json'
             }
         });
-
+        // Принимаю данные
         req.on('response', response => {
             let body = '';
 
@@ -69,7 +69,7 @@ function getList(from, to) {
             response.on('error', () => {
                 reject('error');
             });
-
+            // После приема - привожу в "цветную" форму
             response.on('end', () => {
                 resolve(prettyMessage(body));
             });
@@ -96,7 +96,7 @@ function sendMessage(from, to, text) {
         let jsonText = {
             'text': text
         };
-
+        // Отправляю вместе с запросом - текст сообщения
         req.write(JSON.stringify(jsonText));
 
         req.on('response', response => {
@@ -109,7 +109,7 @@ function sendMessage(from, to, text) {
             response.on('error', () => {
                 reject('error');
             });
-
+            // Принимаю ответ
             response.on('end', () => {
                 resolve(prettyMessage(body));
             });
@@ -121,7 +121,7 @@ function sendMessage(from, to, text) {
 
 function prettyMessage(body) {
     body = JSON.parse(body);
-    body = body[0] ? body : [body];
+    body = body[0] ? body : [body]; // Если сообщение одно - оборачиваю(для универсальности)
     body = body.map(mes => {
         let ans = '';
         let from = mes.from;
@@ -137,7 +137,7 @@ function prettyMessage(body) {
 
         return ans;
     });
-    body = body.join('\n\n');
+    body = body.join('\n\n'); // Сращиваю сообщения между собой
 
     return body;
 }

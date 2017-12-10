@@ -5,7 +5,7 @@ const { parse: parseUrl } = require('url');
 const { parse: parseQuery } = require('querystring');
 
 const server = http.createServer();
-
+// JSON база данных
 let DB = [];
 
 server.on('request', (req, res) => {
@@ -30,7 +30,6 @@ server.on('request', (req, res) => {
             if (to) {
                 body.to = to;
             }
-
             body.text = JSON.parse(fetchedData).text;
             DB.push(body);
             res.write(JSON.stringify(body));
@@ -45,7 +44,7 @@ server.on('request', (req, res) => {
 module.exports = server;
 
 function createLocalDB(from, to) {
-    let localDB = DB;
+    let localDB = DB; // Фильтрую по нужным критериям
     localDB = from ? localDB.filter(e => e.from === from) : localDB;
     localDB = to ? localDB.filter(e => e.to === to) : localDB;
 
