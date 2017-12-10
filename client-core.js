@@ -132,9 +132,7 @@ function prettyMessage(body) {
         if (to) {
             ans += `${chalk.hex('#F00')('TO')}: ${to}\n`;
         }
-        if (text) {
-            ans += `${chalk.hex('#0F0')('TEXT')}: ${text}`;
-        }
+        ans += `${chalk.hex('#0F0')('TEXT')}: ${text}`;
 
         return ans;
     });
