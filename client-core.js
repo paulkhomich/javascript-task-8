@@ -53,7 +53,10 @@ function getList(from, to) {
             hostname: 'localhost',
             method: 'GET',
             path: path,
-            port: 8080
+            port: 8080,
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
 
         req.on('response', response => {
